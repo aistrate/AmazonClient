@@ -163,7 +163,7 @@ namespace AmazonClient
                     request.ListType = ListLookupRequestListType.WishList;
                     request.ListTypeSpecified = true;
                     request.ListId = (string)cbWishlists.SelectedValue;
-                    request.ResponseGroup = new string[] { "Large" };
+                    request.ResponseGroup = new string[] { "Medium", "Reviews", "ListItems" };
 
                     ListLookup listLookup = new ListLookup();
                     listLookup.Request = new ListLookupRequest[] { request };
@@ -176,39 +176,45 @@ namespace AmazonClient
                         request.ProductPage = page.ToString();
                         ListLookupResponse response = Client.ListLookup(listLookup);
 
-                        if (response.Lists[0].List == null)
+                        if (response == null || response.Lists == null || response.Lists.Length == 0 ||
+                            response.Lists[0] == null || response.Lists[0].List == null ||
+                            response.Lists[0].List.Length == 0 || response.Lists[0].List[0].ListItem == null)
                             break;
 
                         listItems.AddRange(response.Lists[0].List[0]
-                                                   .ListItem.Where(item => item.Item != null));
+                                                   .ListItem.Where(li => li != null && li.Item != null));
                     }
 
-                    var results = listItems.Select(item => new
+                    int i = 1;
+                    var results = listItems.Select(li => new
                                            {
-                                               item.Item.ItemAttributes.Title,
-                                               Author = item.Item.ItemAttributes.Author != null
-                                                            ? string.Join(", ", item.Item.ItemAttributes.Author)
+                                               ItemIndex = i++,
+                                               li.Item.ItemAttributes.Title,
+                                               li.Item.DetailPageURL,
+                                               Author = li.Item.ItemAttributes.Author != null
+                                                            ? string.Join(", ", li.Item.ItemAttributes.Author)
                                                             : "",
-                                               SalesRank = int.Parse(item.Item.SalesRank ?? "0"),
-                                               Price = toString(item.Item.ItemAttributes.ListPrice),
-                                               Pages = int.Parse(item.Item.ItemAttributes.NumberOfPages ?? "0"),
-                                               TotalReviews = item.Item.CustomerReviews != null 
-                                                                ? int.Parse(item.Item.CustomerReviews.TotalReviews ?? "0") : 0,
-                                               AverageRating = item.Item.CustomerReviews != null
-                                                                ? item.Item.CustomerReviews.AverageRating : 0m,
-                                               item.Item.ItemAttributes.PublicationDate,
-                                               item.Item.ItemAttributes.Publisher,
-                                               item.Item.ItemAttributes.Binding,
-                                               item.Item.ItemAttributes.Edition,
-                                               item.Item.DetailPageURL
-                                           });
+                                               SalesRank = int.Parse(li.Item.SalesRank ?? "0"),
+                                               Price = toString(li.Item.ItemAttributes.ListPrice),
+                                               Pages = int.Parse(li.Item.ItemAttributes.NumberOfPages ?? "0"),
+                                               TotalReviews = li.Item.CustomerReviews != null
+                                                                ? int.Parse(li.Item.CustomerReviews.TotalReviews ?? "0") : 0,
+                                               AverageRating = li.Item.CustomerReviews != null
+                                                                ? li.Item.CustomerReviews.AverageRating : 0m,
+                                               li.Item.ItemAttributes.PublicationDate,
+                                               li.Item.ItemAttributes.Publisher,
+                                               li.Item.ItemAttributes.Binding,
+                                               li.Item.ItemAttributes.Edition,
+                                               li.DateAdded,
+                                               li.Comment
+                                           })
+                                           .ToArray();
+
+                    bsResults.DataSource = results.ToDataTable("");
+                    gvResults.Sort(gvResults.Columns["ItemIndex"], ListSortDirection.Ascending);
 
                     lblItemCount.Text = string.Format("({0} items)", results.Count());
 
-                    bsResults.DataSource = results.ToDataSet();
-                    bsResults.DataMember = "Results";
-                    gvResults.Sort(gvResults.Columns[0], ListSortDirection.Ascending);
-                    
                     txtErrorMessages.Text = "Data successfully retrieved.";
                     gvResults.Focus();
 
@@ -245,7 +251,7 @@ namespace AmazonClient
         {
             try
             {
-                if (e.ColumnIndex == 0)
+                if (e.ColumnIndex == gvResults.Columns["Title"].Index)
                 {
                     DataRow row = ((DataRowView)gvResults.Rows[e.RowIndex].DataBoundItem).Row;
                     string url = (string)row["DetailPageURL"];

@@ -40,6 +40,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WishlistViewer));
             this.label1 = new System.Windows.Forms.Label();
             this.gvResults = new System.Windows.Forms.DataGridView();
@@ -49,6 +52,7 @@
             this.cbWishlists = new System.Windows.Forms.ComboBox();
             this.lblItemCount = new System.Windows.Forms.Label();
             this.btnGetCustomerId = new System.Windows.Forms.Button();
+            this.ItemIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Author = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SalesRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +64,8 @@
             this.Publisher = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Binding = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Edition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateAdded = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gvResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsWishlists)).BeginInit();
@@ -85,6 +91,7 @@
             this.gvResults.AutoGenerateColumns = false;
             this.gvResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ItemIndex,
             this.Title,
             this.Author,
             this.SalesRank,
@@ -95,10 +102,13 @@
             this.PublicationDate,
             this.Publisher,
             this.Binding,
-            this.Edition});
+            this.Edition,
+            this.DateAdded,
+            this.Comment});
             this.gvResults.DataSource = this.bsResults;
             this.gvResults.Location = new System.Drawing.Point(11, 38);
             this.gvResults.Name = "gvResults";
+            this.gvResults.RowHeadersWidth = 20;
             this.gvResults.Size = new System.Drawing.Size(967, 670);
             this.gvResults.TabIndex = 2;
             this.gvResults.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvResults_CellContentClick);
@@ -153,11 +163,22 @@
             this.btnGetCustomerId.Visible = false;
             this.btnGetCustomerId.Click += new System.EventHandler(this.btnGetCustomerId_Click);
             // 
+            // ItemIndex
+            // 
+            this.ItemIndex.DataPropertyName = "ItemIndex";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ItemIndex.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ItemIndex.HeaderText = "#";
+            this.ItemIndex.Name = "ItemIndex";
+            this.ItemIndex.ReadOnly = true;
+            this.ItemIndex.Width = 40;
+            // 
             // Title
             // 
             this.Title.DataPropertyName = "Title";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Title.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle2;
             this.Title.HeaderText = "Title";
             this.Title.Name = "Title";
             this.Title.ReadOnly = true;
@@ -167,8 +188,8 @@
             // Author
             // 
             this.Author.DataPropertyName = "Author";
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Author.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Author.DefaultCellStyle = dataGridViewCellStyle3;
             this.Author.HeaderText = "Author";
             this.Author.Name = "Author";
             this.Author.ReadOnly = true;
@@ -177,11 +198,11 @@
             // SalesRank
             // 
             this.SalesRank.DataPropertyName = "SalesRank";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = null;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.SalesRank.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.SalesRank.DefaultCellStyle = dataGridViewCellStyle4;
             this.SalesRank.HeaderText = "Sales Rank";
             this.SalesRank.Name = "SalesRank";
             this.SalesRank.ReadOnly = true;
@@ -190,10 +211,10 @@
             // AverageRating
             // 
             this.AverageRating.DataPropertyName = "AverageRating";
-            dataGridViewCellStyle4.Format = "N1";
-            dataGridViewCellStyle4.NullValue = null;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.AverageRating.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Format = "N1";
+            dataGridViewCellStyle5.NullValue = null;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.AverageRating.DefaultCellStyle = dataGridViewCellStyle5;
             this.AverageRating.HeaderText = "Rating";
             this.AverageRating.Name = "AverageRating";
             this.AverageRating.ReadOnly = true;
@@ -202,11 +223,11 @@
             // TotalReviews
             // 
             this.TotalReviews.DataPropertyName = "TotalReviews";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N0";
-            dataGridViewCellStyle5.NullValue = null;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.TotalReviews.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = null;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.TotalReviews.DefaultCellStyle = dataGridViewCellStyle6;
             this.TotalReviews.HeaderText = "Reviews";
             this.TotalReviews.Name = "TotalReviews";
             this.TotalReviews.ReadOnly = true;
@@ -215,11 +236,11 @@
             // Price
             // 
             this.Price.DataPropertyName = "Price";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "C2";
-            dataGridViewCellStyle6.NullValue = null;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Price.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = null;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Price.DefaultCellStyle = dataGridViewCellStyle7;
             this.Price.HeaderText = "Price";
             this.Price.Name = "Price";
             this.Price.ReadOnly = true;
@@ -228,11 +249,11 @@
             // Pages
             // 
             this.Pages.DataPropertyName = "Pages";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.NullValue = null;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Pages.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = null;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Pages.DefaultCellStyle = dataGridViewCellStyle8;
             this.Pages.HeaderText = "Pages";
             this.Pages.Name = "Pages";
             this.Pages.ReadOnly = true;
@@ -241,10 +262,9 @@
             // PublicationDate
             // 
             this.PublicationDate.DataPropertyName = "PublicationDate";
-            dataGridViewCellStyle8.Format = "d";
-            dataGridViewCellStyle8.NullValue = null;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PublicationDate.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle9.NullValue = null;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PublicationDate.DefaultCellStyle = dataGridViewCellStyle9;
             this.PublicationDate.HeaderText = "Publication Date";
             this.PublicationDate.Name = "PublicationDate";
             this.PublicationDate.ReadOnly = true;
@@ -253,30 +273,52 @@
             // Publisher
             // 
             this.Publisher.DataPropertyName = "Publisher";
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Publisher.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Publisher.DefaultCellStyle = dataGridViewCellStyle10;
             this.Publisher.HeaderText = "Publisher";
             this.Publisher.Name = "Publisher";
             this.Publisher.ReadOnly = true;
-            this.Publisher.Width = 150;
+            this.Publisher.Width = 200;
             // 
             // Binding
             // 
             this.Binding.DataPropertyName = "Binding";
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Binding.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Binding.DefaultCellStyle = dataGridViewCellStyle11;
             this.Binding.HeaderText = "Binding";
             this.Binding.Name = "Binding";
             this.Binding.ReadOnly = true;
+            this.Binding.Width = 150;
             // 
             // Edition
             // 
             this.Edition.DataPropertyName = "Edition";
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Edition.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Edition.DefaultCellStyle = dataGridViewCellStyle12;
             this.Edition.HeaderText = "Edition";
             this.Edition.Name = "Edition";
             this.Edition.ReadOnly = true;
+            this.Edition.Width = 150;
+            // 
+            // DateAdded
+            // 
+            this.DateAdded.DataPropertyName = "DateAdded";
+            dataGridViewCellStyle13.NullValue = null;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DateAdded.DefaultCellStyle = dataGridViewCellStyle13;
+            this.DateAdded.HeaderText = "Date Added";
+            this.DateAdded.Name = "DateAdded";
+            this.DateAdded.ReadOnly = true;
+            // 
+            // Comment
+            // 
+            this.Comment.DataPropertyName = "Comment";
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Comment.DefaultCellStyle = dataGridViewCellStyle14;
+            this.Comment.HeaderText = "Comment";
+            this.Comment.Name = "Comment";
+            this.Comment.ReadOnly = true;
+            this.Comment.Width = 200;
             // 
             // WishlistViewer
             // 
@@ -312,6 +354,7 @@
         private System.Windows.Forms.ComboBox cbWishlists;
         private System.Windows.Forms.Label lblItemCount;
         private System.Windows.Forms.Button btnGetCustomerId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ItemIndex;
         private System.Windows.Forms.DataGridViewLinkColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Author;
         private System.Windows.Forms.DataGridViewTextBoxColumn SalesRank;
@@ -323,6 +366,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Publisher;
         private System.Windows.Forms.DataGridViewTextBoxColumn Binding;
         private System.Windows.Forms.DataGridViewTextBoxColumn Edition;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateAdded;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
     }
 }
 
