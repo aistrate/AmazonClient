@@ -45,31 +45,39 @@ namespace AmazonClient
 
         private void WishlistViewer_Load(object sender, EventArgs e)
         {
-            ListSearchRequest request = new ListSearchRequest();
-            request.ListType = ListSearchRequestListType.WishList;
-            request.Email = "adr_istrate@yahoo.com";
-            request.ResponseGroup = new string[] { "ListInfo" };
+            try
+            {
+                ListSearchRequest request = new ListSearchRequest();
+                request.ListType = ListSearchRequestListType.WishList;
+                request.Email = "adr_istrate@yahoo.com";
+                request.ResponseGroup = new string[] { "ListInfo" };
 
-            ListSearch listSearch = new ListSearch();
-            listSearch.Request = new ListSearchRequest[] { request };
-            listSearch.AWSAccessKeyId = accessKeyId;
+                ListSearch listSearch = new ListSearch();
+                listSearch.Request = new ListSearchRequest[] { request };
+                listSearch.AWSAccessKeyId = accessKeyId;
 
-            ListSearchResponse response = Client.ListSearch(listSearch);
+                ListSearchResponse response = Client.ListSearch(listSearch);
 
-            List[] wishlists = response.Lists[0].List ?? new List[] { };
+                List[] wishlists = response.Lists[0].List ?? new List[] { };
 
-            var results = wishlists.OrderBy(list => list.ListName)
-                                   .Select(list => new {
-                                                           list.ListId,
-                                                           list.ListName
-                                                       })
-                                   .ToList();
+                var results = wishlists.OrderBy(list => list.ListName)
+                                       .Select(list => new
+                                       {
+                                           list.ListId,
+                                           list.ListName
+                                       })
+                                       .ToList();
 
-            results.Insert(0, new { ListId = "", ListName = "" });
+                results.Insert(0, new { ListId = "", ListName = "" });
 
-            bsWishlists.DataSource = results;
-            cbWishlists.ValueMember = "ListId";
-            cbWishlists.DisplayMember = "ListName";
+                bsWishlists.DataSource = results;
+                cbWishlists.ValueMember = "ListId";
+                cbWishlists.DisplayMember = "ListName";
+            }
+            catch (Exception ex)
+            {
+                txtErrorMessages.Text = getErrorMessages(ex);
+            }
         }
 
         private void cbWishlists_SelectedIndexChanged(object sender, EventArgs e)
@@ -165,12 +173,19 @@ namespace AmazonClient
 
         private void gvResults_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0)
+            try
             {
-                DataRow row = ((DataRowView)gvResults.Rows[e.RowIndex].DataBoundItem).Row;
-                string url = (string)row["DetailPageURL"];
+                if (e.ColumnIndex == 0)
+                {
+                    DataRow row = ((DataRowView)gvResults.Rows[e.RowIndex].DataBoundItem).Row;
+                    string url = (string)row["DetailPageURL"];
 
-                System.Diagnostics.Process.Start(url);
+                    System.Diagnostics.Process.Start(url);
+                }
+            }
+            catch (Exception ex)
+            {
+                txtErrorMessages.Text = getErrorMessages(ex);
             }
         }
     }
