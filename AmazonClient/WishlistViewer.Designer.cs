@@ -100,6 +100,7 @@
             this.gvResults.Name = "gvResults";
             this.gvResults.Size = new System.Drawing.Size(967, 670);
             this.gvResults.TabIndex = 2;
+            this.gvResults.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvResults_CellContentClick);
             // 
             // Title
             // 

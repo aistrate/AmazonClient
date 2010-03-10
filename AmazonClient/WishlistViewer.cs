@@ -121,7 +121,8 @@ namespace AmazonClient
                                                item.Item.ItemAttributes.PublicationDate,
                                                item.Item.ItemAttributes.Publisher,
                                                item.Item.ItemAttributes.Binding,
-                                               item.Item.ItemAttributes.Edition
+                                               item.Item.ItemAttributes.Edition,
+                                               item.Item.DetailPageURL
                                            });
 
                     lblItemCount.Text = string.Format("({0} items)", results.Count());
@@ -160,6 +161,17 @@ namespace AmazonClient
         private string getErrorMessages(Exception ex)
         {
             return ex.Message + (ex.InnerException != null ? "\r\n" + getErrorMessages(ex.InnerException) : "");
+        }
+
+        private void gvResults_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0)
+            {
+                DataRow row = ((DataRowView)gvResults.Rows[e.RowIndex].DataBoundItem).Row;
+                string url = (string)row["DetailPageURL"];
+
+                System.Diagnostics.Process.Start(url);
+            }
         }
     }
 }
