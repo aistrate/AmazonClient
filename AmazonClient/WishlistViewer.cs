@@ -15,6 +15,8 @@ namespace AmazonClient
     {
         private const string accessKeyId = "AKIAIBXJMQV42YTDN4LA";
         private const string secretKey = "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";
+        
+        private const string customerId = "A2OERDJWDTFPHW";
 
         public WishlistViewer()
         {
@@ -47,32 +49,100 @@ namespace AmazonClient
         {
             try
             {
-                ListSearchRequest request = new ListSearchRequest();
-                request.ListType = ListSearchRequestListType.WishList;
+                //ListSearchRequest request = new ListSearchRequest();
+                //request.ListType = ListSearchRequestListType.WishList;
+                //request.Email = "adr_istrate@yahoo.com";
+                //request.ResponseGroup = new string[] { "ListMinimum" };
+
+                //ListSearch listSearch = new ListSearch();
+                //listSearch.Request = new ListSearchRequest[] { request };
+                //listSearch.AWSAccessKeyId = accessKeyId;
+
+                //ListSearchResponse response = Client.ListSearch(listSearch);
+
+                //List[] wishlists = response.Lists[0].List ?? new List[] { };
+
+                //var results = wishlists.OrderBy(list => list.ListName)
+                //                       .Select(list => new
+                //                       {
+                //                           list.ListId,
+                //                           list.ListName
+                //                       })
+                //                       .ToList();
+
+                //results.Insert(0, new { ListId = "", ListName = "" });
+
+                //bsWishlists.DataSource = results;
+                //cbWishlists.ValueMember = "ListId";
+                //cbWishlists.DisplayMember = "ListName";
+
+
+                List<KeyValuePair<string, string>> results = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("", ""),
+                    new KeyValuePair<string, string>("1PVD58E39T15L", "Kindle-Accessories"),
+                    new KeyValuePair<string, string>("33N1J1YX74ANF", "Kindle-Biography"),
+                    new KeyValuePair<string, string>("18MYIV5BM9K32", "Kindle-Fiction"),
+                    new KeyValuePair<string, string>("112OHTNEC04RH", "Kindle-History"),
+                    new KeyValuePair<string, string>("1GK6TOK5KSG6", "Kindle-NonFiction"),
+                    new KeyValuePair<string, string>("34M965M2F0OX2", "Kindle-Programming"),
+                    new KeyValuePair<string, string>("1ZLEEHALKJBHU", "Kindle-Reference"),
+                    new KeyValuePair<string, string>("1JQ5NKW1B1G50", "Kindle-ScienceHistory"),
+
+                    new KeyValuePair<string, string>("1YM02JF1IRK49", "AlphaGeek4")
+
+                    //new KeyValuePair<string, string>("2OP8548TSNB5S", "CS-Auxiliary"),
+                    //new KeyValuePair<string, string>("2TLYGARP98S1D", "CS-FinishedReading"),
+                    //new KeyValuePair<string, string>("1KSVUUX3UH9BE", "CS-HeavyButEssential"),
+                    //new KeyValuePair<string, string>("1F4HSQS6BW026", "CS-Inspiration"),
+                    //new KeyValuePair<string, string>("3ESHNUSKYMVIY", "CS-Other"),
+                    //new KeyValuePair<string, string>("3VFBSLZC7GZKP", "CS-ReadingNow"),
+                    //new KeyValuePair<string, string>("3CBTCLYF8SXV7", "CS-ReadingSoonOwned"),
+                    //new KeyValuePair<string, string>("NK6KLSJ0IHM7", "CS-TastyToReadNext"),
+
+                    //new KeyValuePair<string, string>("2BBRSYTN57I6A", "ToReadNext2010")
+                };
+
+                bsWishlists.DataSource = results.OrderBy(pair => pair.Value);
+                cbWishlists.ValueMember = "Key";
+                cbWishlists.DisplayMember = "Value";
+            }
+            catch (Exception ex)
+            {
+                txtErrorMessages.Text = getErrorMessages(ex);
+            }
+        }
+
+        private void btnGetCustomerId_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CustomerContentSearchRequest request = new CustomerContentSearchRequest();
                 request.Email = "adr_istrate@yahoo.com";
-                request.ResponseGroup = new string[] { "ListInfo" };
+                request.ResponseGroup = new string[] { "CustomerInfo" };
 
-                ListSearch listSearch = new ListSearch();
-                listSearch.Request = new ListSearchRequest[] { request };
-                listSearch.AWSAccessKeyId = accessKeyId;
+                CustomerContentSearch customerContentSearch = new CustomerContentSearch();
+                customerContentSearch.Request = new CustomerContentSearchRequest[] { request };
+                customerContentSearch.AWSAccessKeyId = accessKeyId;
 
-                ListSearchResponse response = Client.ListSearch(listSearch);
+                CustomerContentSearchResponse response = Client.CustomerContentSearch(customerContentSearch);
 
-                List[] wishlists = response.Lists[0].List ?? new List[] { };
+                var customers = response.Customers[0].Customer;
+                if (customers.Length > 0)
+                    MessageBox.Show(customers[0].CustomerId, "Customer ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                var results = wishlists.OrderBy(list => list.ListName)
-                                       .Select(list => new
-                                       {
-                                           list.ListId,
-                                           list.ListName
-                                       })
-                                       .ToList();
 
-                results.Insert(0, new { ListId = "", ListName = "" });
+                //CustomerContentLookupRequest request = new CustomerContentLookupRequest();
+                //request.CustomerId = customerId;
+                //request.ResponseGroup = new string[] { "CustomerInfo" };
 
-                bsWishlists.DataSource = results;
-                cbWishlists.ValueMember = "ListId";
-                cbWishlists.DisplayMember = "ListName";
+                //CustomerContentLookup customerContentLookup = new CustomerContentLookup();
+                //customerContentLookup.Request = new CustomerContentLookupRequest[] { request };
+                //customerContentLookup.AWSAccessKeyId = accessKeyId;
+
+                //CustomerContentLookupResponse response = Client.CustomerContentLookup(customerContentLookup);
+
+                //var customers = response.Customers[0].Customer;
             }
             catch (Exception ex)
             {
@@ -106,7 +176,7 @@ namespace AmazonClient
                         request.ProductPage = page.ToString();
                         ListLookupResponse response = Client.ListLookup(listLookup);
 
-                        if (response.Lists[0].List == null || response.Lists[0].List.Length == 0)
+                        if (response.Lists[0].List == null)
                             break;
 
                         listItems.AddRange(response.Lists[0].List[0]

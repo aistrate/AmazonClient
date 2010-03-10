@@ -43,6 +43,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WishlistViewer));
             this.label1 = new System.Windows.Forms.Label();
             this.gvResults = new System.Windows.Forms.DataGridView();
+            this.bsResults = new System.Windows.Forms.BindingSource(this.components);
+            this.txtErrorMessages = new System.Windows.Forms.TextBox();
+            this.bsWishlists = new System.Windows.Forms.BindingSource(this.components);
+            this.cbWishlists = new System.Windows.Forms.ComboBox();
+            this.lblItemCount = new System.Windows.Forms.Label();
+            this.btnGetCustomerId = new System.Windows.Forms.Button();
             this.Title = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Author = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SalesRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,11 +60,6 @@
             this.Publisher = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Binding = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Edition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bsResults = new System.Windows.Forms.BindingSource(this.components);
-            this.txtErrorMessages = new System.Windows.Forms.TextBox();
-            this.bsWishlists = new System.Windows.Forms.BindingSource(this.components);
-            this.cbWishlists = new System.Windows.Forms.ComboBox();
-            this.lblItemCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gvResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsWishlists)).BeginInit();
@@ -101,6 +102,56 @@
             this.gvResults.Size = new System.Drawing.Size(967, 670);
             this.gvResults.TabIndex = 2;
             this.gvResults.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvResults_CellContentClick);
+            // 
+            // bsResults
+            // 
+            this.bsResults.AllowNew = false;
+            // 
+            // txtErrorMessages
+            // 
+            this.txtErrorMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtErrorMessages.Location = new System.Drawing.Point(12, 714);
+            this.txtErrorMessages.Multiline = true;
+            this.txtErrorMessages.Name = "txtErrorMessages";
+            this.txtErrorMessages.ReadOnly = true;
+            this.txtErrorMessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtErrorMessages.Size = new System.Drawing.Size(965, 34);
+            this.txtErrorMessages.TabIndex = 4;
+            // 
+            // bsWishlists
+            // 
+            this.bsWishlists.AllowNew = false;
+            // 
+            // cbWishlists
+            // 
+            this.cbWishlists.DataSource = this.bsWishlists;
+            this.cbWishlists.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWishlists.FormattingEnabled = true;
+            this.cbWishlists.Location = new System.Drawing.Point(74, 12);
+            this.cbWishlists.Name = "cbWishlists";
+            this.cbWishlists.Size = new System.Drawing.Size(220, 21);
+            this.cbWishlists.TabIndex = 5;
+            this.cbWishlists.SelectedIndexChanged += new System.EventHandler(this.cbWishlists_SelectedIndexChanged);
+            // 
+            // lblItemCount
+            // 
+            this.lblItemCount.AutoSize = true;
+            this.lblItemCount.Location = new System.Drawing.Point(310, 15);
+            this.lblItemCount.Name = "lblItemCount";
+            this.lblItemCount.Size = new System.Drawing.Size(0, 13);
+            this.lblItemCount.TabIndex = 6;
+            // 
+            // btnGetCustomerId
+            // 
+            this.btnGetCustomerId.Location = new System.Drawing.Point(458, 10);
+            this.btnGetCustomerId.Name = "btnGetCustomerId";
+            this.btnGetCustomerId.Size = new System.Drawing.Size(115, 23);
+            this.btnGetCustomerId.TabIndex = 7;
+            this.btnGetCustomerId.Text = "Get Customer ID";
+            this.btnGetCustomerId.UseVisualStyleBackColor = true;
+            this.btnGetCustomerId.Visible = false;
+            this.btnGetCustomerId.Click += new System.EventHandler(this.btnGetCustomerId_Click);
             // 
             // Title
             // 
@@ -227,50 +278,12 @@
             this.Edition.Name = "Edition";
             this.Edition.ReadOnly = true;
             // 
-            // bsResults
-            // 
-            this.bsResults.AllowNew = false;
-            // 
-            // txtErrorMessages
-            // 
-            this.txtErrorMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtErrorMessages.Location = new System.Drawing.Point(12, 714);
-            this.txtErrorMessages.Multiline = true;
-            this.txtErrorMessages.Name = "txtErrorMessages";
-            this.txtErrorMessages.ReadOnly = true;
-            this.txtErrorMessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtErrorMessages.Size = new System.Drawing.Size(965, 34);
-            this.txtErrorMessages.TabIndex = 4;
-            // 
-            // bsWishlists
-            // 
-            this.bsWishlists.AllowNew = false;
-            // 
-            // cbWishlists
-            // 
-            this.cbWishlists.DataSource = this.bsWishlists;
-            this.cbWishlists.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbWishlists.FormattingEnabled = true;
-            this.cbWishlists.Location = new System.Drawing.Point(74, 12);
-            this.cbWishlists.Name = "cbWishlists";
-            this.cbWishlists.Size = new System.Drawing.Size(220, 21);
-            this.cbWishlists.TabIndex = 5;
-            this.cbWishlists.SelectedIndexChanged += new System.EventHandler(this.cbWishlists_SelectedIndexChanged);
-            // 
-            // lblItemCount
-            // 
-            this.lblItemCount.AutoSize = true;
-            this.lblItemCount.Location = new System.Drawing.Point(310, 15);
-            this.lblItemCount.Name = "lblItemCount";
-            this.lblItemCount.Size = new System.Drawing.Size(0, 13);
-            this.lblItemCount.TabIndex = 6;
-            // 
             // WishlistViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 757);
+            this.Controls.Add(this.btnGetCustomerId);
             this.Controls.Add(this.lblItemCount);
             this.Controls.Add(this.cbWishlists);
             this.Controls.Add(this.txtErrorMessages);
@@ -298,6 +311,7 @@
         private System.Windows.Forms.BindingSource bsWishlists;
         private System.Windows.Forms.ComboBox cbWishlists;
         private System.Windows.Forms.Label lblItemCount;
+        private System.Windows.Forms.Button btnGetCustomerId;
         private System.Windows.Forms.DataGridViewLinkColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Author;
         private System.Windows.Forms.DataGridViewTextBoxColumn SalesRank;
