@@ -10,6 +10,4 @@
 *.vsmdi
 *.rdl.data
 *.user
-Tests/
 Visual Studio*/
-log/
