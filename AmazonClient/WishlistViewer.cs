@@ -83,11 +83,13 @@ namespace AmazonClient
                     new KeyValuePair<string, string>("1PVD58E39T15L", "Kindle-Accessories"),
                     new KeyValuePair<string, string>("33N1J1YX74ANF", "Kindle-Biography"),
                     new KeyValuePair<string, string>("18MYIV5BM9K32", "Kindle-Fiction"),
+                    new KeyValuePair<string, string>("1ASX02Z8BRKZ1", "Kindle-Finished​Reading"),
                     new KeyValuePair<string, string>("112OHTNEC04RH", "Kindle-History"),
                     new KeyValuePair<string, string>("1GK6TOK5KSG6", "Kindle-NonFiction"),
                     new KeyValuePair<string, string>("34M965M2F0OX2", "Kindle-Programming"),
                     new KeyValuePair<string, string>("1ZLEEHALKJBHU", "Kindle-Reference"),
                     new KeyValuePair<string, string>("1JQ5NKW1B1G50", "Kindle-ScienceHistory"),
+                    new KeyValuePair<string, string>("26K33SDG21US7", "Kindle-Travel"),
 
                     new KeyValuePair<string, string>("1YM02JF1IRK49", "AlphaGeek4")
 
